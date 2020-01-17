@@ -7,12 +7,12 @@ from keras.optimizers import SGD, Adam
 from keras.utils import np_utils
 from keras.datasets import mnist
 
-#config = tf.ConfigProto(allow_soft_placement=True)
-#config.gpu_options.allow_growth = True
-#sess = tf.Session(config=config)
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+sess = tf.Session(config=config)
 
-gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.8)
-sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
+#gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.8)
+#sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
 
 
 def load_data():
@@ -55,9 +55,9 @@ model.add(Dense(units=512, activation='sigmoid'))
 model.add(Dense(units=10, activation='softmax'))
 
 #model.compile(loss='mse', optimizer=SGD(lr=0.1), metrics=['accuracy'])
-model.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
-#model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-model.fit(x_train, y_train, batch_size=100, epochs=20)
+#model.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.fit(x_train, y_train, batch_size=1000, epochs=20)
 
 result = model.evaluate(x_train, y_train, batch_size=10000)
 print ('\nTraining accuracy:', result[1])
